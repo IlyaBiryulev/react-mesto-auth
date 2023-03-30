@@ -9,6 +9,9 @@ import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
 import {api} from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import {Route, Routes, } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -133,16 +136,19 @@ function App() {
   return (
     <div>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-        <Main 
-        onEditProfile = {handleEditProfileClick}
-        onAddPlace = {handleAddPlaceClick}
-        onEditAvatar = {handleEditAvatarClick}
-        onCardClick = {handleCardClick}
-        onCardLike = {handleCardLike}
-        onCardDelete = {handleCardDelete}
-        cards = {cards}
-        />
+        <Routes>
+          <Route path='/' element={<Main 
+            onEditProfile = {handleEditProfileClick}
+            onAddPlace = {handleAddPlaceClick}
+            onEditAvatar = {handleEditAvatarClick}
+            onCardClick = {handleCardClick}
+            onCardLike = {handleCardLike}
+            onCardDelete = {handleCardDelete}
+            cards = {cards}
+        />} />
+        <Route path='/sign-up' element={<Register />} />
+        <Route path='/sign-in' element={<Login />} />
+        </Routes>
         <Footer />
         <EditProfilePopup 
         isOpen = {isEditProfilePopupOpen}

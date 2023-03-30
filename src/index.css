@@ -5,6 +5,7 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__item/header__item.css);
 
 @import url(./blocks/content/content.css);
 
@@ -49,3 +50,13 @@
 @import url(./blocks/popup/__form-error/_active/popup__form-error_active.css);
 @import url(./blocks/popup/__form/_confirm-delete/popup__form_confirm-delete.css);
 @import url(./blocks/popup/_open-img/popup_open-img.css);
+
+
+@import url(./blocks/auth/auth.css);
+@import url(./blocks/auth/__container/auth__container.css);
+@import url(./blocks/auth/__title/auth__title.css);
+@import url(./blocks/auth/__form/auth__form.css);
+@import url(./blocks/auth/__form-input/auth__form-input.css);
+@import url(./blocks/auth/__form-input-error/auth__form-input-error.css);
+@import url(./blocks/auth/__submit-button/auth__submit-button.css);
+@import url(./blocks/auth/__link/auth__link.css);
