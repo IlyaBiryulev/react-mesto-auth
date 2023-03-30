@@ -1,12 +1,19 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 
 function NavBar() {
-    return (
-        <nav className='header_item'>
-            <NavLink to='/sihn-up'>Регистрация</NavLink>
-        </nav>
-      );
+  const location = useLocation();
+  function navLinkToggle() {
+    if(location.pathname === "/sign-up") {
+      return(<Link className="header__link" to="/sign-in">Войти</Link>);
+    } else if(location.pathname === "/sign-in") {
+      return(<Link className="header__link" to="/sign-up">Регистрация</Link>);
+    }
+  }
+
+  return (
+    <div className="header__nav">{navLinkToggle()}</div>
+  );
 }
 
 export default NavBar;
