@@ -3,7 +3,7 @@ import React from 'react';
 function InfoTooltip({isOpened, onClose}) {
   return (
     <div>
-      <section className={`popup popup_type_tooltip popup_opened ${isOpened && 'popup_opened'}`}>
+      <section className={`popup popup_type_tooltip ${isOpened && 'popup_opened'}`}>
           <div className="popup__container popup__container_type_tooltip">
             <div className="popup__icon"></div>
             <p className='popup__reg-status'>Вы успешно зарегистрировались!</p>

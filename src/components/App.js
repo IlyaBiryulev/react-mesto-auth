@@ -13,6 +13,7 @@ import {Route, Routes, } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
+import ProtectedRouteElement from './ProtectedRoute';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -31,7 +32,7 @@ function App() {
     "cohort": ''
   });
   const [cards, setCards] = React.useState([]);
-  const [submitButtonState, setSubmitButtonState] = React.useState('')
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -144,7 +145,10 @@ function App() {
     <div>
       <CurrentUserContext.Provider value={currentUser}>
         <Routes>
-          <Route path='/' element={<Main
+          <Route path='/'
+          element ={
+          <ProtectedRouteElement
+            element={Main}
             onEditProfile = {handleEditProfileClick}
             onAddPlace = {handleAddPlaceClick}
             onEditAvatar = {handleEditAvatarClick}
@@ -152,7 +156,9 @@ function App() {
             onCardLike = {handleCardLike}
             onCardDelete = {handleCardDelete}
             cards = {cards}
-        />} />
+            loggedIn ={loggedIn}
+          />}
+          />
         <Route path='/sign-up' element={<Register />} />
         <Route path='/sign-in' element={<Login />} />
         </Routes>
