@@ -12,6 +12,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import {Route, Routes, } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -20,6 +21,7 @@ function App() {
   const [isEditProfilePopupLoading, setIsEditProfilePopupLoading] = React.useState(false);
   const [isAddPlacePopupLoading, setIsAddPlacePopupLoading] = React.useState(false);
   const [isEditAvatarPopupLoading, setIsEditAvatarPopupLoading] = React.useState(false);
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({
     "name": '',
@@ -54,6 +56,10 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  const handlesInfoToolTipClick = () => {
+    setIsInfoToolTipOpen(true);
+  }
+
   const handleCardClick = (card) => {
     setSelectedCard(card);
   }
@@ -63,6 +69,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setIsInfoToolTipOpen(false)
   }
 
   const handleCardLike = (card) => {
@@ -75,7 +82,7 @@ function App() {
     .catch((err) => {
       console.log(err);
     });
-  } 
+  }
 
   const handleCardDelete = (card) => {
     api.deleteCard(card._id)
@@ -86,7 +93,7 @@ function App() {
     .catch((err) => {
       console.log(err);
     });
-  } 
+  }
 
   const handleUpdateUser = (userData) => {
     setIsEditProfilePopupLoading(true);
@@ -115,7 +122,7 @@ function App() {
     })
     .finally(() => {
       setIsEditAvatarPopupLoading(false)
-    }); 
+    });
   }
 
   const handleAddPlaceSubmit = (cardData) => {
@@ -137,7 +144,7 @@ function App() {
     <div>
       <CurrentUserContext.Provider value={currentUser}>
         <Routes>
-          <Route path='/' element={<Main 
+          <Route path='/' element={<Main
             onEditProfile = {handleEditProfileClick}
             onAddPlace = {handleAddPlaceClick}
             onEditAvatar = {handleEditAvatarClick}
@@ -150,26 +157,30 @@ function App() {
         <Route path='/sign-in' element={<Login />} />
         </Routes>
         <Footer />
-        <EditProfilePopup 
+        <EditProfilePopup
         isOpen = {isEditProfilePopupOpen}
         onClose = {closeAllPopups}
         onUpdateUser = {handleUpdateUser}
         isLoading = {isEditProfilePopupLoading}
         />
-        <EditAvatarPopup 
+        <EditAvatarPopup
         isOpen = {isEditAvatarPopupOpen}
         onClose = {closeAllPopups}
         onUpdateAvatar = {handleUpdateAvatar}
         isLoading = {isEditAvatarPopupLoading}
         />
-        <AddPlacePopup 
+        <AddPlacePopup
         isOpen = {isAddPlacePopupOpen}
         onClose = {closeAllPopups}
         onAddPlace = {handleAddPlaceSubmit}
         isLoading = {isAddPlacePopupLoading}
         />
-        <ImagePopup 
+        <ImagePopup
         card = {selectedCard}
+        onClose = {closeAllPopups}
+        />
+        <InfoTooltip
+        isOpen = {isInfoToolTipOpen}
         onClose = {closeAllPopups}
         />
       </CurrentUserContext.Provider>
