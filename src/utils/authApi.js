@@ -1,7 +1,7 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = 'https://auth.nomoreparties.co';
 
-const makeRequest = (url, method, token, body) => {
-  const headers = {"Content-Type": "application/json"};
+const makeRequest = (url, method, body, token) => {
+  const headers = {'Content-Type': 'application/json'};
   const config = {method, headers};
 
   if(token !== undefined) {
@@ -21,14 +21,14 @@ const makeRequest = (url, method, token, body) => {
   });
 }
 
-export const register = ({password, email}) => {
-  return makeRequest("/signup", 'POST', { password, email })
+export const register = (email, password) => {
+  return makeRequest('/signup', 'POST', { email, password })
 };
 
-export const authorize = ({password, email}) => {
-  return makeRequest("/signin", 'POST', { password, email })
+export const authorize = (email, password) => {
+  return makeRequest('/signin', 'POST', { email, password })
 };
 
 export const getContent = (token) => {
-  return makeRequest("/users/me", 'GET', undefined, token)
+  return makeRequest('/users/me', 'GET', undefined, token)
 };

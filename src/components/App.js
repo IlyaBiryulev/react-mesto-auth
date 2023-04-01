@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Route, Routes, useNavigate } from 'react-router-dom';
 
 import '../index.css'
@@ -148,13 +148,13 @@ function App() {
   }
 
   const handleUserAuthorize = React.useCallback(
-    async (userData) => {
+    async ({email, password}) => {
     try {
-      const data = await authApi.authorize(userData);
+      const data = await authApi.authorize(email, password);
       if(data.token) {
         localStorage.setItem('token', data.token);
         setLoggedIn(true);
-        setUserEmail(userData.email);
+        setUserEmail(email);
         navigate('/', {replace: true});
       }
     } catch(err) {
@@ -167,9 +167,9 @@ function App() {
   )
 
   const handleUserRegister = React.useCallback(
-    async (userData) => {
+    async ({email, password}) => {
       try {
-        const data = await authApi.register(userData);
+        const data = await authApi.register(email, password);
         if (data) {
           setIsRegisterSucces(true);
           setIsInfoToolTipOpen(true);
@@ -188,9 +188,37 @@ function App() {
 
   const tokenCheck = React.useCallback(
     async () => {
-      const token = localStorage.getItem('token')
-    }
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('no token');
+        }
+        const user = await authApi.getContent(token);
+        if (!user) {
+          throw new Error('Данные пользователя отсутствуют')
+        }
+        setUserEmail(user.data.email)
+        setLoggedIn(true);
+        navigate('/sign-in', {replace: true})
+      } catch(err) {
+        console.error(err)
+      } finally {
+        setLoading(false);
+      }
+    },
+    [navigate]
   );
+
+  const handleUserLogOut = React.useCallback(() => {
+    localStorage.removeItem('token');
+    setLoggedIn(false);
+    setUserEmail("");
+    navigate('/sign-in', { replace: true });
+  }, [navigate]);
+
+  useEffect(() => {
+    tokenCheck();
+  }, [])
 
   return (
     <div>
