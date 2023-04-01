@@ -1,4 +1,6 @@
 import React from 'react';
+import {Route, Routes, useNavigate } from 'react-router-dom';
+
 import '../index.css'
 import Header from './Header.js';
 import Main from './Main.js';
@@ -9,11 +11,12 @@ import AddPlacePopup from './AddPlacePopup.js';
 import ImagePopup from './ImagePopup.js';
 import {api} from '../utils/Api.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import {Route, Routes, } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRouteElement from './ProtectedRoute';
+
+import * as authApi from '../utils/authApi';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -32,7 +35,14 @@ function App() {
     "cohort": ''
   });
   const [cards, setCards] = React.useState([]);
+
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
+
+  const [isRegisterSucces, setIsRegisterSucces] = React.useState(false);
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -55,10 +65,6 @@ function App() {
 
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
-  }
-
-  const handlesInfoToolTipClick = () => {
-    setIsInfoToolTipOpen(true);
   }
 
   const handleCardClick = (card) => {
@@ -141,6 +147,51 @@ function App() {
     });
   }
 
+  const handleUserAuthorize = React.useCallback(
+    async (userData) => {
+    try {
+      const data = await authApi.authorize(userData);
+      if(data.token) {
+        localStorage.setItem('token', data.token);
+        setLoggedIn(true);
+        setUserEmail(userData.email);
+        navigate('/', {replace: true});
+      }
+    } catch(err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  },
+  [navigate]
+  )
+
+  const handleUserRegister = React.useCallback(
+    async (userData) => {
+      try {
+        const data = await authApi.register(userData);
+        if (data) {
+          setIsRegisterSucces(true);
+          setIsInfoToolTipOpen(true);
+          navigate('/sign-in', {replace: true})
+        }
+      } catch (err) {
+        console.error(err)
+        setIsRegisterSucces(false);
+        setIsInfoToolTipOpen(true);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [navigate]
+  );
+
+  const tokenCheck = React.useCallback(
+    async () => {
+      const token = localStorage.getItem('token')
+    }
+  );
+
   return (
     <div>
       <CurrentUserContext.Provider value={currentUser}>
@@ -159,8 +210,12 @@ function App() {
             loggedIn ={loggedIn}
           />}
           />
-        <Route path='/sign-up' element={<Register />} />
-        <Route path='/sign-in' element={<Login />} />
+        <Route path='/sign-up' element={<Register
+          onRegister = {handleUserRegister}
+        />} />
+        <Route path='/sign-in' element={<Login
+          onLogin = {handleUserAuthorize}
+        />} />
         </Routes>
         <Footer />
         <EditProfilePopup
