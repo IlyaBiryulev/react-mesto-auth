@@ -1,12 +1,14 @@
 import React from 'react';
 import NavBar from './NavBar';
 
-function Header() {
+function Header({onLogOut}) {
   return (
     <div>
       <header className="header">
         <div className="header__logo"></div>
-        <NavBar />
+        <NavBar
+          onLogOut={onLogOut}
+        />
       </header>
     </div>
   );

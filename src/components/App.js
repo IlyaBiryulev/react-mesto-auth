@@ -199,7 +199,7 @@ function App() {
         }
         setUserEmail(user.data.email)
         setLoggedIn(true);
-        navigate('/sign-in', {replace: true})
+        navigate('/', {replace: true})
       } catch(err) {
         console.error(err)
       } finally {
@@ -223,6 +223,9 @@ function App() {
   return (
     <div>
       <CurrentUserContext.Provider value={currentUser}>
+        <Header
+          onLogOut={handleUserLogOut}
+        ></Header>
         <Routes>
           <Route path='/'
           element ={

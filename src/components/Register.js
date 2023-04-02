@@ -24,7 +24,6 @@ function Register({onRegister}) {
 
     return (
         <div>
-          <Header />
           <Authentication
             name={'register'}
             title={'Регистрация'}

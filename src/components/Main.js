@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './Card.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import Header from './Header.js';
 
 function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete, cards}) {
 
@@ -15,9 +16,9 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike,
       <main className="content">
         <section className="profile">
           <button className="profile__avatar-update-button" type="button" onClick = {onEditAvatar}>
-            <img 
-            src={currentUser.avatar} 
-            alt="Фотография профиля" 
+            <img
+            src={currentUser.avatar}
+            alt="Фотография профиля"
             className="profile__image"/>
             </button>
           <div className="profile__info">
