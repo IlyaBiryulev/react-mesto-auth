@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom'
 
-function NavBar({onLogOut}) {
+function NavBar({onLogOut, email, isOpen, onBurgerClick}) {
   const location = useLocation();
   function navLinkToggle() {
     if(location.pathname === "/sign-up") {
@@ -11,8 +11,9 @@ function NavBar({onLogOut}) {
     } else {
       return (
         <>
-        <p className='header__user-email'>email@mail.com</p>
+        <p className='header__user-email'>{email}</p>
         <button className='header__logout-btn' type='button' onClick={onLogOut}>Выйти</button>
+        <button className={`header__burger-btn ${isOpen ? 'header__burger-btn_close' : ''}`} type='button' onClick={onBurgerClick}></button>
         </>
       );
     }

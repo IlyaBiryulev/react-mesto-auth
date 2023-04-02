@@ -5,6 +5,8 @@
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-bottom: 41px;
 }
 
 @media screen and (max-width:1240px) {
@@ -21,6 +23,7 @@
 
 @media screen and (max-width:466px) {
   .header {
+    padding-bottom: 0;
     margin: 0;
   }
 }

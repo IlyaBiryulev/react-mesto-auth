@@ -15,6 +15,7 @@ import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
 import ProtectedRouteElement from './ProtectedRoute';
+import HeaderMenu from './HeaderMenu';
 
 import * as authApi from '../utils/authApi';
 
@@ -41,6 +42,8 @@ function App() {
   const [loading, setLoading] = React.useState(true);
 
   const [isRegisterSucces, setIsRegisterSucces] = React.useState(false);
+
+  const [isBurgerMenuOpen, setIsBurgerMenuOpen] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -69,6 +72,14 @@ function App() {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+  }
+
+  const handleBurgerMenuClick = () => {
+    if(!isBurgerMenuOpen) {
+      setIsBurgerMenuOpen(true)
+    } else {
+      setIsBurgerMenuOpen(false)
+    }
   }
 
   const closeAllPopups = () => {
@@ -224,9 +235,12 @@ function App() {
   return (
     <div>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header
+        <HeaderMenu
           onLogOut={handleUserLogOut}
-        ></Header>
+          email={userEmail}
+          isOpen={isBurgerMenuOpen}
+          onBurgerClick={handleBurgerMenuClick}
+        ></HeaderMenu>
         <Routes>
           <Route path='/'
           element ={
