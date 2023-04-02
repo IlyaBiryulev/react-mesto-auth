@@ -174,11 +174,12 @@ function App() {
           setIsRegisterSucces(true);
           setIsInfoToolTipOpen(true);
           navigate('/sign-in', {replace: true})
+        } else {
+          setIsRegisterSucces(false);
+          setIsInfoToolTipOpen(true);
         }
       } catch (err) {
         console.error(err)
-        setIsRegisterSucces(false);
-        setIsInfoToolTipOpen(true);
       } finally {
         setLoading(false);
       }
@@ -274,6 +275,7 @@ function App() {
         <InfoTooltip
         isOpen = {isInfoToolTipOpen}
         onClose = {closeAllPopups}
+        isSucces = {isRegisterSucces}
         />
       </CurrentUserContext.Provider>
     </div>
