@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {Route, Routes, useNavigate } from 'react-router-dom';
 
 import '../index.css'
-import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import EditProfilePopup from './EditProfilePopup.js';

@@ -1,4 +1,5 @@
 .header__burger-btn {
+  display: none;
   background-image: url(../../../image/burgerbtn.svg);
   width: 24px;
   height: 25px;
@@ -14,6 +15,12 @@
 
 .header__burger-btn:hover {
   opacity: .6;
+}
+
+@media screen and (max-width: 580px) {
+  .header__burger-btn {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 460px) {
